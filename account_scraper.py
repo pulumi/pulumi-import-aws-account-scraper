@@ -13,9 +13,23 @@ def generate_import_resources(
     for aws_resource in get_aws_resources():
         resource_id = get_resource_id(aws_resource)
 
+        name = f"import-{resource_id}"
+
+        if "Name" in aws_resource:
+            # Assuming that a Name attribute must be unique, e.g. for an S3
+            # bucket.
+            name = aws_resource["Name"]
+        elif "Tags" in aws_resource:
+            for tag in aws_resource["Tags"]:
+                if tag["Key"] == "Name":
+                    # Name tag values have no unique requirement, and thus need
+                    # the ID appended to ensure uniqueness.
+                    name = f"{tag['Value']}-{resource_id}"
+                    break
+
         pulumi_resources.append({
             "type": pulumi_type_identifier,
-            "name": f"import-{resource_id}",
+            "name": name,
             "id": resource_id,
         })
 
