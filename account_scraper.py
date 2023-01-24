@@ -66,6 +66,9 @@ def import_route_table_associations(ec2_client):
 
     return pulumi_resources
 
+def get_ec2_instances():
+    reservations = ec2_client.describe_instances()["Reservations"]
+    return reservations[0]["Instances"] if reservations else []
 
 ec2_client = boto3.client('ec2')
 pulumi_import = {
@@ -94,7 +97,7 @@ pulumi_import['resources'] += generate_import_resources(
 )
 
 pulumi_import['resources'] += generate_import_resources(
-    lambda: ec2_client.describe_instances()["Reservations"][0]["Instances"],
+    lambda: get_ec2_instances(),
     lambda resource: resource["InstanceId"],
     "aws:ec2/instance:Instance",
 )
