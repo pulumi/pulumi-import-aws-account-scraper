@@ -68,7 +68,13 @@ def import_route_table_associations(ec2_client):
 
 def get_ec2_instances():
     reservations = ec2_client.describe_instances()["Reservations"]
-    return reservations[0]["Instances"] if reservations else []
+    instances = []
+
+    # reservations can be 0-n
+    for reservation in reservations:
+        instances.extend(reservation["Instances"])
+
+    return instances
 
 ec2_client = boto3.client('ec2')
 pulumi_import = {
