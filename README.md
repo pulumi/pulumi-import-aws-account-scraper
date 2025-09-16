@@ -1,5 +1,9 @@
 # pulumi-import-aws-account-scraper
 
+> [!IMPORTANT]
+> This repository has been archived and is no longer maintained. You may still find it useful as an example/proof of concept.
+> For a more scaleable approach to importing resources in bulk, consider Pulumi Cloud's [Insights](https://www.pulumi.com/docs/insights/get-started/) and [Visual Import](https://www.pulumi.com/docs/insights/import/) functionality.
+
 This repo contains a sample Python script that uses the AWS Python SDK, [boto3](https://pypi.org/project/boto3/), to query resources in an AWS account/region and generate JSON suitable for the [`pulumi import`](https://www.pulumi.com/docs/reference/cli/pulumi_import/) command. It's intended as a starting point for organizations looking to import numerous resources that were created in the AWS console or via other IaC tools into Pulumi.
 
 The code will query the following resource types:
