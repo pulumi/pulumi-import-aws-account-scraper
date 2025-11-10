@@ -3,6 +3,10 @@ import stringcase
 from pprint import pprint
 import json
 
+translation_table = str.maketrans({' ': '_',
+                                   '(': '_',
+                                   ')': '_',
+                                   '/': '_'})
 
 def generate_import_resources(
     get_aws_resources,
@@ -29,7 +33,7 @@ def generate_import_resources(
 
         pulumi_resources.append({
             "type": pulumi_type_identifier,
-            "name": name,
+            "name": name.translate(translation_table),
             "id": resource_id,
         })
 
